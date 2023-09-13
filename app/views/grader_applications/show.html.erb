@@ -1,0 +1,16 @@
+<h3>Your Application
+
+<div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+  <% if @grader_application.status == "Pending"%>
+  <label class="btn active">
+   <%= link_to 'Edit Application', edit_grader_application_path, class:"btn btn-outline-success float-right"  %>
+  </label>
+  <%end%>
+  <label class="btn">
+      <%= link_to "Return to Grader Applications", grader_applications_path, class:"btn btn-outline-primary float-right" %>
+  </label>
+</div>  
+</h3>
+</br>
+
+<%= render "form_show", grader_application: @grader_application%>

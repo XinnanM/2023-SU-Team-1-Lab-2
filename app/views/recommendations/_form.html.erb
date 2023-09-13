@@ -1,0 +1,46 @@
+<%= form_with(model: recommendation) do |form| %>
+  <% if recommendation.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(recommendation.errors.count, "error") %> prohibited this recommendation from being saved:</h2>
+
+      <ul>
+        <% recommendation.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class = "field form-group">
+    <%= form.text_field :instructor_email, class: "form-control", value: current_user.email, type: :hidden %>
+  </div>
+
+<strong>Student Recommended:</strong>
+</br>
+
+  <div class = "field form-group">
+  <%= form.label :email, 'Student Email', style: "display: block"%>
+    <%= form.text_field :student_email, class: "form-control", placeholder: "Example: student.1@osu.edu" %>
+  </div>
+
+<strong>Course Details:</strong>
+</br>
+
+  <% section_options = options_for_select(Section.all.map { |section| [section.section_identifier, section.section_id] }) %>
+<div class="mb-3">
+  <%= form.label :section_id, 'Section', style: "display: block" %>
+  <%= form.select :section_id, section_options, class: "form-control" %>
+</div>
+</br>
+<strong>Recommendation Reason:</strong>
+</br>
+
+ <div class = "field form-group">
+  <%= form.label :email, 'Reason for Recommendation', style: "display: block"%>
+    <%= form.text_field :testimonial,  class: "form-control text-break", placeholder: "Example: This student is great." %>
+  </div>
+</br>
+  <div class = "actions">
+    <%= form.submit class:'btn btn-outline-success' %>
+  </div>
+<% end %>

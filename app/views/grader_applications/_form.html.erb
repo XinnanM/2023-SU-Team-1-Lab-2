@@ -1,0 +1,72 @@
+<%= form_with(model: grader_application) do |form| %>
+  <% if grader_application.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(grader_application.errors.count, "error") %> prohibited this grader application from being saved:</h2>
+
+      <ul>
+        <% grader_application.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<strong>Contact Details:</strong>
+
+<form>
+  <div class="row">
+    <div class="col">
+      <%= form.label :first_name, 'First Name', style: "display: block"%>
+      <%= form.text_field :first_name, value: current_user.first_name, autofocus: true, autocomplete: "first_name", class: "form-control", readonly: true %>
+    </div>
+    <div class="col">
+       <%= form.label :last_name, 'Last Name', style: "display: block"%>
+       <%= form.text_field :last_name, value: current_user.last_name, autofocus: true, autocomplete: "last_name", class: "form-control", readonly: true %>
+    </div>
+  </div>
+
+
+<div>
+  <%= form.label :email, 'Email', style: "display: block"%>
+  <%= form.text_field :email, value: current_user.email, autofocus: true, autocomplete: "email", class: "form-control", readonly: true %>
+</div>
+</br>
+<strong>Course Information:</strong>
+</br>
+<% section_options = options_for_select(Section.all.map { |section| [section.section_identifier, section.section_id] }) %>
+<div>
+  <%= form.label :section_id, 'Section', style: "display: block" %>
+  <%= form.select :section_id, section_options, class:"form-control"  %>
+</div>
+
+</br>
+ <div class = "field form-group">
+    <%= form.label :grade_received, style: "display: block" %>
+    <%= form.text_field :grade_received, autofocus: true, autocomplete: "grade_received", class: "form-control", :placeholder => "Example: A-"%>
+  </div>
+ 
+  </br><strong>Your Availability:</strong></br>
+
+
+ <div class="row">
+    <div class="col">
+    <%= form.label :time_start_available, 'Time Start Available', style: "display: block" %>
+    <%= form.time_field :time_start_available, autofocus: true, autocomplete: "time_start_available", class: "form-control"%>
+    </div>
+    <div class="col">
+        <%= form.label :time_end_available, 'Time End Available', style: "display: block" %>
+    <%= form.time_field :time_end_available, autofocus: true, autocomplete: "time_end_available", class: "form-control"%>
+  </div>
+  </div>
+  
+  <div>
+    <%= form.label :days_of_the_week_available, 'Meeting days (1-7 for Mon-Sun, up to 7 digits)', style: "display: block" %>
+    <%= form.text_field :days_of_the_week_available, class:"form-control", :placeholder => "Example (for Monday): 1"%>
+  </div>
+
+</br>
+  <div class = "actions">
+    <%= form.submit class:'btn btn-outline-success' %>
+  </div>
+</form>
+<% end %>

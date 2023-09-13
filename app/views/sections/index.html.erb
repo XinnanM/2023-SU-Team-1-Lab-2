@@ -1,0 +1,61 @@
+<p style="color: green"><%= notice %></p>
+
+<h3>Section Catalog
+ <% if current_user && current_user.role == "admin" %>
+<div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+  <label class="btn active">
+ <%= link_to "Go to Course Fetcher", course_fetcher_ui_index_path, class:"btn btn-outline-primary float-right"%>
+  </label>
+  <label class="btn">
+   <%= link_to "New section", new_section_path , class:"btn btn-outline-success float-right" %>
+    </label>
+</div> 
+  <% end %>
+    <form class="float-right form-inline">
+  <%= search_form_for @q do |f| %>
+  <%= f.search_field :course_id_or_catalog_number_or_section_id_or_section_number_or_time_start_or_time_end_or_instructor_name_or_instructor_email_or_location_cont, class:'form-control mr-sm-2 float-right' %>
+  <%= f.submit :submit, class:'btn btn-outline-success my-2 my-sm-o float-right' %>
+  <%end %>
+  </form>
+</h3>
+Only Course Catalog Number or Course ID can be used as search identifiers.
+For sorting, click on the column you would like to sort.
+
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+      <th><%= sort_link(@q, :section_id, class:'text-white') %></th>
+      <th><%= sort_link(@q, :catalog_number, 'Course Identifier', class:'text-white') %></th>
+      <th><%= sort_link(@q, :time_start, 'Time', class:'text-white') %></th>
+      <th><%= sort_link(@q, :instructor_name, class:'text-white') %></th>
+      <th>Term ID</th>
+      <th>Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @sections.each do |section| %>
+      <tr>
+        <td><%= section.id %></td>
+        <% course = Course.find_by(course_id: section.course_id) %>
+        <td><%= course.course_identifier %></td>
+        <td>
+        <%if section.time_start != nil %>
+          <%= section.time_start.strftime("%I:%M %p") %> - <%= section.time_end.strftime("%I:%M %p") %>
+        <%else%>
+          <%= Section.nil_wrapper(section.time_start) %>
+        <%end%>
+        
+        </td>
+        <td><%= Section.nil_wrapper(section.instructor_name) %></td>
+        <td><%= section.term_id %></td>
+        <td><%= link_to "Show this section", section, :class => "btn btn-outline-primary btn-sm"%></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+  <strong>In total of <%= Section.count %> sections in the database</strong>
+<div class='float-right'> 
+<%== pagy_bootstrap_nav(@pagy) %>
+</div>
+</div>
+

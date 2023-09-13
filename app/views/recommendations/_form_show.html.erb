@@ -1,0 +1,80 @@
+<%= form_with(model: recommendation) do |form| %>
+  <fieldset disabled>
+    <% if recommendation.errors.any? %>
+      <div style="color: red">
+        <h2><%= pluralize(recommendation.errors.count, "error") %> prohibited this recommendation from being saved:</h2>
+
+        <ul>
+          <% recommendation.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <strong>Student Recommended:</strong>
+    </br>
+
+    <div class="field form-group">
+      <%= form.text_field :student_email, class: "form-control", value: recommendation.student_email %>
+    </div>
+
+    <strong>Recommended by Instructor:</strong>
+    </br>
+
+    <div class="field form-group">
+      <%= form.text_field :instructor_email, class: "form-control", value: recommendation.instructor_email %>
+    </div>
+
+
+    <strong>Course Details:</strong>
+    </br>
+
+    <div>
+      <%= form.label :course_name, 'Course Name', style: "display: block" %>
+      <%= form.text_field :course_name, value: recommendation.section.course.course_name, class: "form-control" %>
+    </div>
+
+    <div>
+      <%= form.label :section_name, 'Section ID', style: "display: block" %>
+      <%= form.text_field :section_name, value: recommendation.section.section_id, class: "form-control" %>
+    </div>
+
+    <div>
+      <%= form.label :location, 'Location', style: "display: block" %>
+      <%= form.text_field :location, value: recommendation.section.location, class: "form-control" %>
+    </div>
+
+    <div>
+      <%= form.label :days_of_the_week_available, 'Section Meeting Days', style: "display: block" %>
+      <%= form.text_field :days_of_the_week_available, value: recommendation.section.format_days_of_week, class: "form-control" %>
+    </div>
+
+ <div class="row">
+    <div class="col">
+    <%= form.label :section_time_start, 'Class Start Time', style: "display: block" %>
+    <%if recommendation.section.time_start != nil %>
+    <%= form.text_field :section_id_time_start, value:recommendation.section.time_start.strftime("%I:%M %p"),  autofocus: true, autocomplete: "time_start_available", class: "form-control"%>
+    <%else%>
+    N/A
+    <%end%>
+    </div>
+    <div class="col">
+    <%= form.label :section_end, 'Class End Time', style: "display: block" %>
+    <%if recommendation.section.time_start != nil %>
+    <%= form.text_field :section_id_time_end, value:recommendation.section.time_end.strftime("%I:%M %p"),  autofocus: true, autocomplete: "time_start_available", class: "form-control"%>
+    <%else%>
+    N/A
+    <%end%>
+   </div>
+   </div>
+    </br>
+    <strong>Recommendation Reason:</strong>
+    </br>
+
+    <div class="field form-group">
+      <%= form.text_field :testimonial, class: "form-control text-break", placeholder: "Notes about student" %>
+    </div>
+    </br>
+  </fieldset>
+<% end %>

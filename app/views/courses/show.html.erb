@@ -1,0 +1,58 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @course %>
+
+
+<div id="sections">
+
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+
+    <tr>
+      <th>Section Number</th>
+      <th>Term ID</th>
+      <th>Meeting Days</th>
+      <th>Time Start</th>
+      <th>Time End</th>
+      <th>Instructor</th>
+      <th>Num Required Grader</th>
+      <th>Current Num Grader</th>
+      <th>Operation</th>
+    </tr>
+    </thead>
+    <tbody>
+    <%# @sections = @course.sections %>
+    <% @sections.each do |section| %>
+      <tr>
+        <td><%= section.section_number %></td>
+        <td><%= section.term_id %></td>
+        <td><%= section.format_days_of_week %></td>
+        <% if section.time_start != nil %>
+          <td><%= section.time_start.strftime("%I:%M %p") %></td>
+        <% else %>
+          <td><%= Section.nil_wrapper(section.time_start) %></td>
+        <% end %>
+        <% if section.time_start != nil %>
+          <td><%= section.time_end.strftime("%I:%M %p") %></td>
+        <% else %>
+          <td><%= Section.nil_wrapper(section.time_end) %></td>
+        <% end %>
+        <td><%= Section.nil_wrapper(section.instructor_name) %></td>
+        <td><%= section.num_required_graders %></td>
+        <td><%= section.current_num_required_graders %></td>
+        <td><%= link_to "Section Details", section, :class => "btn btn-outline-primary btn-sm" %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+
+<strong>In total of <%= Section.where(course_id: @course.course_id).count %> sections of this course in the
+  database</strong>
+  <div class='float-right'>  <%== pagy_bootstrap_nav(@pagy) %> </div>
+</br>
+</br>
+<p></p>
+
+
+</div>

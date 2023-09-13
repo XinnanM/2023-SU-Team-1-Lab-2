@@ -1,0 +1,51 @@
+<p style="color: green"><%= notice %></p>
+
+<h3>Course Catalog
+  <% if current_user && current_user.role == "admin" %>
+<div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+  <label class="btn active">
+ <%= link_to "Go to Course Fetcher", course_fetcher_ui_index_path, class:"btn btn-outline-primary float-right"%>
+  </label>
+  <label class="btn">
+   <%= link_to "New course", new_course_path,  class:"btn btn-outline-success float-right" %>
+    </label>
+</div> 
+  <% end %>
+   <form class="float-right form-inline">
+     <%= search_form_for @q do |f| %>
+     <%= f.search_field :short_description_or_catalog_number_or_course_name_or_academic_career_cont, class:'form-control mr-sm-2 float-right' %>
+     <%= f.submit :submit, class:'btn btn-outline-success my-2 my-sm-o float-right' %> 
+    <% end %>
+    </form>
+  </h3>
+<p> For sorting, click on the column you would like to sort.</p>
+<div id="courses">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+    <tr>
+      <th><%= sort_link(@q, :catalog_number, class:'text-white')%></th>
+      <th><%= sort_link(@q, :course_name, class:'text-white') %></th>
+      <th><%= sort_link(@q, :academic_career, class:'text-white') %></th>
+      <th >Operations</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @courses.each do |course| %>
+      <tr>
+        <td><%= course.catalog_number %></td>
+        <td><%= course.course_name %></td>
+        <td><%= course.academic_career %></td>
+        <td>
+           <%= link_to "Show Course Details", course, :class => "btn btn-outline-primary btn-sm" %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
+<strong>Showing <%=@courses.count %> of the <%= Course.count %> courses in the database</strong>
+<div class='float-right'> 
+<%== pagy_bootstrap_nav(@pagy) %>
+</div>
+
+

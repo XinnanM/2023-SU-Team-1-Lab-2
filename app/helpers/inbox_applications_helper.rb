@@ -1,0 +1,2 @@
+module InboxApplicationsHelper
+end

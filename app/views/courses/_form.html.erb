@@ -1,0 +1,44 @@
+<%= form_with(model: course) do |form| %>
+  <% if course.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(course.errors.count, "error") %> prohibited this course from being saved:</h2>
+
+      <ul>
+        <% course.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+<form>
+  <div>
+    <%= form.label :catalog_number, 'Catalog Number (in digit format of XXXX.XX or XXXX with an optional H)*' , style: "display: block" %>
+    <%= form.text_field :catalog_number, class:'form-control', placeholder: "Example: 2321" %>
+  </div>
+
+  <div>
+  <%= form.label :course_name, style: "display: block" %>
+  <%= form.text_field :course_name, class:'form-control', placeholder: "Example: Course Name" %>
+  </div>
+
+  <div>
+    <%= form.label :course_description, style: "display: block" %>
+    <%= form.text_field :course_description, class:'form-control', placeholder: "Example: This course covers how to enter in course information." %>
+  </div>
+
+ 
+  <div>
+  <%= form.label :academic_career, style: "display: block" %>
+  <%= form.select :academic_career, %w[Undergraduate Graduate Pre-college Online Non-Degree] %>
+</div>
+</br>
+ <strong>*: For non-semester courses, XXX.XX or XXX is possible</strong>
+ </br>
+</br>
+  <div>
+    <%= form.submit class:'btn btn-outline-success' %>
+     <%= link_to "Back to courses", courses_path, class:'btn btn-outline-primary' %>
+  </div>
+ 
+  </form>
+<% end %>

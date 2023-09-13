@@ -1,0 +1,13 @@
+<h3>Editing Recommendation
+<div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+  <label class="btn active">
+ <%= link_to "View", @recommendation, class:"btn btn-outline-primary float-right" %> 
+  </label>
+  <label class="btn">
+    <%= link_to "Back to recommendations", recommendations_path, class:"btn btn-outline-primary float-right" %>
+    </label>
+</div> 
+  </h3> 
+</br>
+
+<%= render "form", recommendation: @recommendation %>

@@ -1,0 +1,18 @@
+<h3>Editing Grader Application 
+
+<div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+  <label class="btn active">
+ <%= link_to "View", @grader_application, class:"btn btn-outline-primary float-right" %> 
+  </label>
+  <label class="btn">
+     <%= link_to "Back to Grader Applications", grader_applications_path, class:"btn btn-outline-primary float-right" %>
+    </label>
+</div> 
+
+
+   </h3>
+   </br>
+
+<%= render "form", grader_application: @grader_application %>
+
+<br>

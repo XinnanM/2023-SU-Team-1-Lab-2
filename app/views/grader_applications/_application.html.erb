@@ -1,0 +1,19 @@
+<div id="<%= dom_id grader_application %>">
+
+  <h3>
+    Application ID <%= grader_application.id %>: <%= grader_application.name %>
+  </h3>
+  <p>
+    <strong>Email:</strong>
+    <%= grader_application.email %>
+  </p>
+  <p>
+    <strong>Course and Section:</strong>
+    Course ID: <%= grader_application.course_id %> , Section ID: <%= grader_application.section_id %>
+  </p>
+  <p>
+    <strong>Schedule/Availability:</strong>
+    <%= grader_application.schedule %>
+  </p>
+
+</div>

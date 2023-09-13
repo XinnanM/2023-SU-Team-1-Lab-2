@@ -1,0 +1,87 @@
+<%= form_with(model: section) do |form| %>
+  <% if section.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(section.errors.count, "error") %> prohibited this section from being saved:</h2>
+
+      <ul>
+        <% section.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+ <form>
+
+  <div class="row">
+    <div class="col">
+      <%= form.label :section_number, 'Section Number (4-digit)', style: "display: block" %>
+    <%= form.text_field :section_number, class:'form-control' %>
+    </div>
+    <div class="col">
+      <%= form.label :term_id, 'Term ID (4-digit)', style: "display: block" %>
+    <%= form.text_field :term_id, class:'form-control' %>
+    </div>
+  </div>
+
+ <% course_options = options_for_select(Course.all.map { |course| [course.course_identifier, course.course_id] }) %>
+<div>
+  <%= form.label :course_id, 'Course of the section', style: "display: block" %>
+  <%= form.select :course_id, Course.all.map { |course| [course.course_identifier, course.course_id] } %>
+</div>
+
+  <div>
+    <%= form.label :campus, style: "display: block" %>
+    <%= form.text_field :campus, class:'form-control' %>
+  </div>
+
+  <div>
+    <%= form.label :days_of_week, 'Meeting days (1-7 for Mon-Sun, up to 7 digits)', style: "display: block" %>
+    <%= form.text_field :days_of_week, class:'form-control' %>
+  </div>
+
+  <div class="row">
+    <div class="col">
+         <%= form.label :time_start, 'Start Time of Meeting', style: "display: block" %>
+    <%= form.time_field :time_start, class:'form-control' %>
+    </div>
+    <div class="col">
+    <%= form.label :time_end,'End Time of Meeting', style: "display: block" %>
+    <%= form.time_field :time_end, class:'form-control' %>
+    </div>
+  </div>
+
+  <div>
+    <%= form.label :location, 'Classroom Location', style: "display: block" %>
+    <%= form.text_field :location, class:'form-control' %>
+  </div>
+
+  <div>
+    <%= form.label :instructor_name, style: "display: block" %>
+    <%= form.text_field :instructor_name, class:'form-control' %>
+  </div>
+
+  <div>
+    <%= form.label :instructor_email, style: "display: block" %>
+    <%= form.text_field :instructor_email, class:'form-control' %>
+  </div>
+
+<div class="row">
+    <div class="col">
+        <%= form.label :num_required_graders, 'Required Number of Graders (Default: 1)',style: "display: block" %>
+      <%= form.number_field :num_required_graders, class:'form-control' %>
+    </div>
+    <div class="col">
+  <%= form.label :current_num_required_graders, 'Current Number of Graders (Default: 0)', style: "display: block" %>
+    <%= form.number_field :current_num_required_graders, class:'form-control' %>
+    </div>
+  </div>
+</br>
+  <div>
+    <%= form.submit  class:'btn btn-outline-success'%>
+
+ <%= link_to "Back to courses", courses_path, class:'btn btn-outline-primary' %>
+
+
+  </div>
+  </form>
+<% end %>

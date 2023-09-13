@@ -1,0 +1,34 @@
+<div id="<%= dom_id course %>">
+
+  <h3>
+    CSE <%= course.catalog_number %>: <%= course.course_name %>
+  </h3>
+  <p>
+    <strong>Course description:</strong>
+    <%= course.course_description %>
+  </p>
+  <p>
+    <strong>Academic career:</strong>
+    <%= course.academic_career %>
+  </p>
+
+  <p> 
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn active">
+ <%= link_to "Go to Course Catalog", courses_path, :class => "btn btn-outline-primary" %>
+  </label>
+  <% if current_user && current_user.role == "admin" %>
+  <label class="btn"> 
+    <%= link_to "New section", new_section_path, class:"btn btn-outline-success " %>
+</label>
+   <label class="btn">
+    <%= link_to "Edit", edit_course_path(@course), :class => "btn btn-outline-success " %>
+      </label>
+    <label class="btn">
+    <%= button_to "Delete", @course, method: :delete, :class => "btn btn-outline-danger" %>
+      </label>
+  <% end %>
+  </p>
+
+
+</div>

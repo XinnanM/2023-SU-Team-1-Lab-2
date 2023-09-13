@@ -1,0 +1,106 @@
+<div id="<%= dom_id section %>">
+<% @course = @section.course%>
+
+  <h3>Section information for CSE <%= section.catalog_number %></h3>
+  
+
+  <p>
+    <strong>Course Identifier:</strong>
+    <%= Course.find_by(course_id: section.course_id).course_identifier %>
+  </p>
+
+  <p>
+    <strong>Section:</strong>
+    <%= section.section_id %>
+  </p>
+
+  <p>
+    <strong>Section number:</strong>
+    <%= section.section_number %>
+  </p>
+
+<!--  <p>-->
+<!--    <strong>Course:</strong>-->
+    <%#= section.course_id %>
+<!--  </p>-->
+
+<!--  <p>-->
+<!--    <strong>Catalog number:</strong>-->
+    <%#= section.catalog_number %>
+<!--  </p>-->
+
+  <p>
+    <strong>Term:</strong>
+    <%= section.term_id %>
+  </p>
+
+  <p>
+    <strong>Campus:</strong>
+    <%= section.campus %>
+  </p>
+
+  <p>
+    <strong>Days of the week:</strong>
+    <%= section.format_days_of_week %>
+  </p>
+  
+  <p>
+    <strong>Time Start:</strong>
+    <% if section.time_start != nil%>
+    <%= section.time_start.strftime("%I:%M %p")%>
+    <%else%>
+    <td><%= Section.nil_wrapper(section.time_start) %></td>
+    <% end %>
+  </p>
+
+  <p>
+    <strong>Time End:</strong>
+    <% if section.time_end != nil%>
+    <%= section.time_end.strftime("%I:%M %p")%>
+    <%else%>
+    <td><%= Section.nil_wrapper(section.time_end) %></td>
+    <% end %>
+  </p>
+
+  <p>
+    <strong>Location:</strong>
+    <%= Section.nil_wrapper(section.location) %>
+  </p>
+
+  <p>
+    <strong>Instructor name:</strong>
+    <%= Section.nil_wrapper(section.instructor_name) %>
+  </p>
+
+  <p>
+    <strong>Instructor email:</strong>
+    <%= Section.nil_wrapper(section.instructor_email) %>
+  </p>
+
+  <p>
+    <strong>Num required graders:</strong>
+    <%= section.num_required_graders %>
+  </p>
+
+  <p>
+    <strong>Current num required graders:</strong>
+    <%= section.current_num_required_graders %>
+  </p>
+
+ <p> 
+  <div class="btn-group btn-group-toggle" data-toggle="buttons">
+  <label class="btn active">
+ <%= link_to "Go to Course Details", course_path(@course), :class=>"btn btn-primary"%>
+  </label>
+  <% if current_user && current_user.role == "admin" %>
+   <label class="btn">
+     <%= link_to "Edit this section", edit_section_path(@section), :class => "btn btn-outline-success " %>
+      </label>
+    <label class="btn">
+    <%= button_to "Destroy this section", @section, method: :delete, :class => "btn btn-outline-danger" %>
+      </label>
+  <% end %>
+  </div>
+  </p>
+
+</div>

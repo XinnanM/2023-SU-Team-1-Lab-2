@@ -1,0 +1,28 @@
+<html>
+<head>
+  <title>Fetching New Courses</title>
+</head>
+<body>
+<h3>Fetch New Courses from API</h3>
+<strong>Note: fetching classes will delete all current classes, sections, and related recommendation/grader applications!</strong>
+
+<%= form_tag course_fetcher_ui_fetch_courses_path, method: :post do %>
+  <label for="campus">Campus:</label>
+  <% campus_options = options_for_select(CourseFetcher.initial_response[:campus_data].map { |data| [data['title'], data['term']] } )%>
+  <% campus_options =  options_for_select([%w[Columbus col], %w[Mansfield mns], %w[Newark nwk]]) if campus_options.nil?%>
+  <%= select_tag :campus, campus_options, prompt: 'Select a campus' %><br>
+
+  <label for="term">Term:</label>
+  <% term_options = options_for_select(CourseFetcher.initial_response[:term_data].map { |data| [data['title'], data['term']] } )%>
+  <% term_options =  options_for_select([['Spring 2023', 1232], ['Summer 2023', 1234], ['Fall 2023', 1238]]) if term_options.nil?%>
+  <%= select_tag :term, term_options, prompt: 'Select a term' %><br>
+</br>
+  <%= submit_tag "Fetch Courses", onclick: "return confirm('Are you sure you want to fetch courses? This will replace all courses in the database, and this action is irreversible!');",:class => "btn btn-outline-success btn-sm" %>
+<%= link_to "Return to Course Catalog", courses_path, :class => "btn btn-outline-primary btn-sm"%>
+
+<% end %>
+
+<br>
+
+</body>
+</html>

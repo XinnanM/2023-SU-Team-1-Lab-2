@@ -1,0 +1,104 @@
+
+
+<h3>Grader Applications Inbox</h3>
+<p> For approve/deny buttons, scroll to the right in the table.</p>
+</br>
+<div class= "float-center">
+<table class = "table table-striped table-bordered table-hover table-responsive">
+  <thead class = "thead-dark">
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Student Email</th>
+      <th>Course Name</th>
+      <th>Course Section</th>
+      <th>Section Schedule</th>
+      <th>Student Schedule</th>
+      <th>Grader Needed?</th>
+      <th>Recommended?</th>     
+      <th>Students Course Grade</th>
+      <th>Options</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% apps = GraderApplication.where(status: 'Pending') %>
+    <% apps.each do |app| %>
+        <tr>
+          <td><%= app.first_name %>
+          </td>
+          <td><%= app.last_name %>
+          </td>
+          <td><%= app.email %>
+          </td>
+          <td><%= app.section.course.course_name %>
+          </td>
+          <td><%= app.section_id %>
+          </td>
+          <td>
+          <%= app.section.format_days_of_week %>
+          <%if app.section.time_start != nil %>
+          <%= app.section.time_start.strftime("%I:%M %p") %>
+          <%else%>
+          <%= Section.nil_wrapper(app.section.time_start) %>
+          <%end%>
+          -
+          <%if app.section.time_start != nil %>
+          <%= app.section.time_end.strftime("%I:%M %p") %>
+          <%else%>
+          <%= Section.nil_wrapper(app.section.time_end) %>
+          <%end%>          
+          
+          </td>
+          <td>
+          <%= app.format_days_of_week %>
+          <%if app.time_start_available != nil %>
+          <%= app.time_start_available.strftime("%I:%M %p") %>
+          <%else%>
+          <%= Section.nil_wrapper(app.time_start_available) %>
+          <%end%>
+          -
+          <%if app.time_end_available != nil %>
+          <%= app.time_end_available.strftime("%I:%M %p") %>
+          <%else%>
+          <%= Section.nil_wrapper(app.time_end_available) %>
+          <%end%>
+        
+          </td>
+          <% section = Section.find(app.section_id) %>
+          <% if (section.num_required_graders - section.current_num_required_graders) > 0 %>
+            <td>Yes</td>
+          <% else %>
+            <td>No</td>
+          <% end %>
+          <td>
+            <% recommendations = Recommendation.where(student_email: app.email, section_id: app.section_id) %>
+            <% if recommendations.count == 0 %>
+              None
+            <% else %>
+            <% recommendations.each do |recommendation| %>
+              <%= link_to 'View Recommendation', recommendation, class:"btn btn-outline-primary"  %>
+            <% end %>
+            <% end %>
+          </td>          
+          <td><%= app.grade_received %>
+          </td>
+        <td>
+        <div class="btn-group btn-group-toggle" data-toggle="buttons">
+         <label class="btn active">
+          <%= button_to "Approve", inbox_applications_approve_path, method: :put, params: {"email"=>app.email, "section_id"=>app.section_id, "action"=>"approve"}, class:"btn btn-outline-success" %>
+         </label>
+           <label class="btn">
+          <%= button_to "Deny", inbox_applications_deny_path, method: :put, params: {"email"=>app.email, "section_id"=>app.section_id, "action"=>"deny"}, class:"btn btn-outline-danger" %>
+          </label>
+         </div>    
+      </td>     
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+</div>
+</br>
+</br>
+<%== pagy_bootstrap_nav(@pagy) %>
